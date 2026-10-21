@@ -1,0 +1,36 @@
+import SwiftUI
+import Playgrounds
+
+struct ContentView: View {
+    var body: some View {
+        TabView {
+            DashboardView()
+                .tabItem{
+                    Label("Home", systemImage: "house.fill")
+                }
+            FoodLogView()
+                .tabItem{
+                    Label("Search", systemImage: "magnifyingglass")
+                }
+            FoodLogView()
+                .tabItem {
+                    Label("Food Log", systemImage: "list.bullet")
+                }
+            WeightView()
+                .tabItem {
+                    Label("Weight", systemImage: "scalemass")
+                }
+
+            ProgressView()
+                .tabItem {
+                    Label("Progress", systemImage: "chart.bar")
+                }
+        }
+    }
+}
+
+#Preview {
+    ContentView()
+}
+
+
