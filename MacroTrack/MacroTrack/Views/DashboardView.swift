@@ -13,7 +13,7 @@ struct DashboardView: View {
     @Environment(\.colorScheme) var colorScheme
     
     // Daily Calorie Info
-    @State private var caloriesEaten = 300.0
+    @State private var caloriesEaten = 1500.0
     @State private var calorieGoal = 2000.0
     
     var body: some View {
@@ -65,13 +65,21 @@ struct DashboardView: View {
                             
                             // Tracking bar for calories
                             ProgressView( value: caloriesEaten, total: calorieGoal )
-                                .tint(.green)
+                                .tint(caloriesEaten > calorieGoal ? .red : .green)
                             
                             // Remaining calories
-                            Text("\(Int(calorieGoal - caloriesEaten)) calories remaining")
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                            
+                            if caloriesEaten > calorieGoal {
+                                Text("\(Int(caloriesEaten - calorieGoal)) calories over goal")
+                                    .font(.caption)
+                                    .foregroundStyle(.gray)
+                                
+                                
+                            } else {
+                                Text("\(Int(calorieGoal - caloriesEaten)) calories remaining")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                                
+                            }
                             
                         }
                         .padding()
