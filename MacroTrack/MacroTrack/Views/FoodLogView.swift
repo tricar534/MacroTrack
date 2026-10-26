@@ -44,9 +44,7 @@ struct FoodLogView: View {
                     HStack {
                         Text("Today")
                             .bold()
-
                         Spacer()
-
                         Text("0 calories logged")
                             .font(.subheadline)
                     }
