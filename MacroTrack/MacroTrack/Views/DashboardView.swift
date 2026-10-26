@@ -12,6 +12,10 @@ struct DashboardView: View {
     // Detect light or dark mode ** IMPLEMENT LATER **
     @Environment(\.colorScheme) var colorScheme
     
+    // Daily Calorie Info
+    @State private var caloriesEaten = 300.0
+    @State private var calorieGoal = 2000.0
+    
     var body: some View {
         
         // Allow navigation and display title
@@ -54,16 +58,17 @@ struct DashboardView: View {
                             Text("Daily Calories")
                                 .font(.headline)
                             
-                            Text("0 / 2000 cal")
+                            // Calories consumed
+                            Text("\(Int(caloriesEaten)) / \(Int(calorieGoal)) cal")
                                 .font(.title)
                                 .bold()
                             
-                            // Trackign bar for calories
-                            ProgressView( value: 0.0, total: 2000.0 )
+                            // Tracking bar for calories
+                            ProgressView( value: caloriesEaten, total: calorieGoal )
                                 .tint(.green)
                             
                             // Remaining calories
-                            Text("2000 calories remaining")
+                            Text("\(Int(calorieGoal - caloriesEaten)) calories remaining")
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                             
