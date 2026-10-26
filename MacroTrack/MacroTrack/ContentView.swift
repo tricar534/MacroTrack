@@ -21,7 +21,7 @@ struct ContentView: View {
                     Label("Weight", systemImage: "scalemass")
                 }
 
-            ProgressView()
+            ProgressScreen()
                 .tabItem {
                     Label("Progress", systemImage: "chart.bar")
                 }
