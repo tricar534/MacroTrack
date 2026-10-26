@@ -9,7 +9,7 @@ import SwiftUI
 
 struct DashboardView: View {
    
-    // Detect light or dark mode
+    // Detect light or dark mode ** IMPLEMENT LATER **
     @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
@@ -50,17 +50,28 @@ struct DashboardView: View {
                         // Macros info
                         
                         // Daily calories card
-                        VStack{
+                        VStack ( alignment: .leading, spacing: 15){
                             Text("Daily Calories")
                                 .font(.headline)
                             
                             Text("0 / 2000 cal")
                                 .font(.title)
                                 .bold()
+                            
+                            // Trackign bar for calories
+                            ProgressView( value: 0.0, total: 2000.0 )
+                                .tint(.green)
+                            
+                            // Remaining calories
+                            Text("2000 calories remaing")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                            
+                            
                         }
                         .padding()
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .background()
+                        .background(.white)
                         .cornerRadius(15)
                         
                         
@@ -74,11 +85,12 @@ struct DashboardView: View {
                                 
                                 Text("0 g")
                                     .font(.title2)
+                                    .bold()
                                 
                             }
                             .padding()
                             .frame(maxWidth: .infinity, alignment: .leading)
-                            .background()
+                            .background(.white)
                             .cornerRadius(15)
                             
                             
@@ -89,10 +101,11 @@ struct DashboardView: View {
                                 
                                 Text("0 g")
                                     .font(.title2)
+                                    .bold()
                             }
                             .padding()
                             .frame(maxWidth: .infinity, alignment: .leading)
-                            .background()
+                            .background(.white)
                             .cornerRadius(15)
                             
                             
@@ -104,10 +117,11 @@ struct DashboardView: View {
                                 
                                 Text("0 g")
                                     .font(.title2)
+                                    .bold()
                             }
                             .padding()
                             .frame(maxWidth: .infinity, alignment: .leading)
-                            .background()
+                            .background(.white)
                             .cornerRadius(15)
                             
                         }
