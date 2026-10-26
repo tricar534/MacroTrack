@@ -53,7 +53,7 @@ struct FoodLogView: View {
                     .listRowBackground(Color.clear)
 
                     // Breakfast section
-                    Section("Breakfast") {
+                    Section {
                         
                         // Create row for each food
                         ForEach(breakfastFoods, id: \.self){ food in HStack {
@@ -62,25 +62,34 @@ struct FoodLogView: View {
                             }
                         }
                         
+                    } header: {
+                        Label("Breakfast", systemImage: "sunrise")
                     }
                     
                     // Lunch Section
-                    Section("Lunch") {
+                    Section {
                         Text("No foods logged")
                             .foregroundStyle(.secondary)
+                    } header: {
+                        Label("Lunch", systemImage: "sun.max")
                     }
                     
                     // Dinner Section
-                    Section("Dinner") {
+                    Section {
                         Text("No foods logged")
                             .foregroundStyle(.secondary)
+                    } header: {
+                        Label("Dinner", systemImage: "moon")
                     }
                     
                     // Snack Section
-                    Section("Snacks") {
+                    Section {
                         Text("No foods logged")
                             .foregroundStyle(.secondary)
+                    } header: {
+                        Label("Snacks", systemImage: "popcorn")
                     }
+                    
 
                 } // End list
                 .scrollContentBackground(.hidden)
