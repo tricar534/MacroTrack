@@ -13,9 +13,12 @@ struct FoodLogView: View {
         Food(name: "Boiled eggs", calories: 140),
         Food(name: "Banana", calories: 100)
     ]
-    let lunchFoods: [Food] = []
-    let dinnerFoods: [Food] = []
-    let snacksFoods: [Food] = []
+    let lunchFoods: [Food] = [Food(name: "Pizza", calories: 300)]
+    let dinnerFoods: [Food] = [Food(name: "Sushi", calories: 600)]
+    let snacksFoods: [Food] = [Food(name: "Apple", calories: 80)]
+    
+    
+    // FUNCTIONS
     
     // Calculate total calories for a meal
     func mealTotal(foods: [Food]) -> Int {
@@ -26,6 +29,13 @@ struct FoodLogView: View {
         }
 
         return total
+    }
+    
+    // Calculate total calories for the day
+    func dailyTotal() -> Int {
+        let allFoods = breakfastFoods + lunchFoods + dinnerFoods + snacksFoods
+
+        return mealTotal(foods: allFoods)
     }
     
     var body: some View {
@@ -56,7 +66,7 @@ struct FoodLogView: View {
                         
                         Spacer()
                         
-                        Text("\(mealTotal(foods: breakfastFoods)) calories logged")
+                        Text("\(dailyTotal()) calories logged")
                             .font(.subheadline)
                     }
                     .listRowBackground(Color.clear)
