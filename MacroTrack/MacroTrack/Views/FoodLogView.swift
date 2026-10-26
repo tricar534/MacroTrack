@@ -17,13 +17,14 @@ struct FoodLogView: View {
     let dinnerFoods: [Food] = []
     let snacksFoods: [Food] = []
     
-    // Functions
-    func breakfastTotal() -> Int {
+    // Calculate total calories for a meal
+    func mealTotal(foods: [Food]) -> Int {
         var total = 0
-        
-        for food in breakfastFoods {
+
+        for food in foods {
             total += food.calories
         }
+
         return total
     }
     
@@ -55,7 +56,7 @@ struct FoodLogView: View {
                         
                         Spacer()
                         
-                        Text("0 calories logged")
+                        Text("\(mealTotal(foods: breakfastFoods)) calories logged")
                             .font(.subheadline)
                     }
                     .listRowBackground(Color.clear)
@@ -75,7 +76,15 @@ struct FoodLogView: View {
                         }
                         
                     } header: {
-                        Label("Breakfast", systemImage: "sunrise")
+                        HStack {
+                                Label("Breakfast", systemImage: "sunrise")
+
+                                Spacer()
+
+                                // Breakfast calorie subtotal
+                                Text("\(mealTotal(foods: breakfastFoods)) cal")
+                                    .font(.subheadline)
+                        }
                     }
                     
                     // Lunch Section
@@ -92,7 +101,15 @@ struct FoodLogView: View {
                             }}
                         }
                     } header: {
-                        Label("Lunch", systemImage: "sun.max")
+                        HStack {
+                                Label("Lunch", systemImage: "sun.max")
+
+                                Spacer()
+
+                                // Breakfast calorie subtotal
+                                Text("\(mealTotal(foods: lunchFoods)) cal")
+                                    .font(.subheadline)
+                        }
                     }
                     
                     // Dinner Section
@@ -109,7 +126,15 @@ struct FoodLogView: View {
                             }}
                         }
                     } header: {
-                        Label("Dinner", systemImage: "moon")
+                        HStack {
+                                Label("Dinner", systemImage: "moon")
+
+                                Spacer()
+
+                                // Breakfast calorie subtotal
+                                Text("\(mealTotal(foods: dinnerFoods)) cal")
+                                    .font(.subheadline)
+                        }
                     }
                     
                     // Snack Section
@@ -126,7 +151,15 @@ struct FoodLogView: View {
                             }}
                         }
                     } header: {
-                        Label("Snacks", systemImage: "popcorn")
+                        HStack {
+                                Label("Snack", systemImage: "popcorn")
+
+                                Spacer()
+
+                                // Breakfast calorie subtotal
+                                Text("\(mealTotal(foods: snacksFoods)) cal")
+                                    .font(.subheadline)
+                        }
                     }
                     
 
