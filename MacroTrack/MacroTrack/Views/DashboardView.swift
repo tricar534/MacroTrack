@@ -63,7 +63,7 @@ struct DashboardView: View {
                                 .tint(.green)
                             
                             // Remaining calories
-                            Text("2000 calories remaing")
+                            Text("2000 calories remaining")
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                             
@@ -79,7 +79,7 @@ struct DashboardView: View {
                         HStack (spacing: 12) {
                             
                             // Protein
-                            VStack{
+                            VStack(alignment: .leading, spacing: 5) {
                                 Text("Protein")
                                     .font(.subheadline)
                                 
@@ -95,7 +95,7 @@ struct DashboardView: View {
                             
                             
                             // Carbs
-                            VStack {
+                            VStack(alignment: .leading, spacing: 5) {
                                 Text("Carbs")
                                     .font(.subheadline)
                                 
@@ -111,7 +111,7 @@ struct DashboardView: View {
                             
                             
                             // Fat
-                            VStack {
+                            VStack(alignment: .leading, spacing: 5) {
                                 Text("Fat")
                                     .font(.subheadline)
                                 
@@ -126,9 +126,6 @@ struct DashboardView: View {
                             
                         }
                         
-                        
-                        // Push content toward top
-                        Spacer()
                     }
                     // Add space around content
                     .padding()
