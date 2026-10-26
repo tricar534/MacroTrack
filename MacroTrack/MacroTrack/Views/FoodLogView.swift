@@ -8,6 +8,17 @@
 import SwiftUI
 
 struct FoodLogView: View {
+    
+    // Food
+    let breakfastFoods = [
+        "Boiled eggs",
+        "Banana"
+    ]
+    //let lunchFoods = []
+    //let dinnerFoods = []
+    //let snacksFoods = []
+    
+    
     var body: some View {
         
         // Navigation
@@ -43,8 +54,14 @@ struct FoodLogView: View {
 
                     // Breakfast section
                     Section("Breakfast") {
-                        Text("No foods logged")
-                            .foregroundStyle(.secondary)
+                        
+                        // Create row for each food
+                        ForEach(breakfastFoods, id: \.self){ food in HStack {
+                                Text(food)
+                                Spacer()
+                            }
+                        }
+                        
                     }
                     
                     // Lunch Section
