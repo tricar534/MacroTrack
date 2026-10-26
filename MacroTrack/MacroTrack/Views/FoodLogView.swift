@@ -9,10 +9,22 @@ import SwiftUI
 
 struct FoodLogView: View {
     
-    // Food
+    // Struct to store food information
+    struct Food: Identifiable {
+        
+        // Unique id for each food
+        let id = UUID()
+        
+        // Food name
+        var name: String
+        
+        // Calories in food
+        var calories: Int
+    }
+    
     let breakfastFoods = [
-        "Boiled eggs",
-        "Banana"
+        Food(name: "Boiled eggs", calories: 140),
+        Food(name: "Banana", calories: 100)
     ]
     //let lunchFoods = []
     //let dinnerFoods = []
@@ -54,9 +66,10 @@ struct FoodLogView: View {
                     Section {
                         
                         // Create row for each food
-                        ForEach(breakfastFoods, id: \.self){ food in HStack {
-                                Text(food)
+                        ForEach(breakfastFoods) { food in HStack {
+                            Text("\(food.name)")
                                 Spacer()
+                            Text("\(food.calories)")
                             }
                         }
                         
