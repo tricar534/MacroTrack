@@ -24,12 +24,40 @@ struct FoodLogView: View {
                     endPoint: .bottom
                 )
                 .ignoresSafeArea()
-            }
-            
-            
-            
-            
-            .navigationTitle("Food Log")
+                
+                
+                // Food log list
+                List {
+
+                    // Daily summary
+                    HStack {
+                        Text("Today")
+                            .bold()
+
+                        Spacer()
+
+                        Text("0 calories logged")
+                            .font(.subheadline)
+                    }
+                    .listRowBackground(Color.clear)
+
+                    // Breakfast section
+                    Section("Breakfast") {
+                        Text("No foods logged")
+                            .foregroundStyle(.secondary)
+                    }
+                    
+                    // Lunch Section
+                    
+                    // Dinner Section
+                    
+                    // Snack Section
+
+                } // End list
+                .scrollContentBackground(.hidden)
+
+            } // End zstack
+        .navigationTitle("Food Log")
         }
     }
 }
