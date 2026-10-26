@@ -63,9 +63,55 @@ struct DashboardView: View {
                         .background()
                         .cornerRadius(15)
                         
-                        Text("Protein: 0 g")
-                        Text("Carbs: 0 g")
-                        Text("Fat: 0 g")
+                        
+                        // Macros cards
+                        HStack (spacing: 12) {
+                            
+                            // Protein
+                            VStack{
+                                Text("Protein")
+                                    .font(.subheadline)
+                                
+                                Text("0 g")
+                                    .font(.title2)
+                                
+                            }
+                            .padding()
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .background()
+                            .cornerRadius(15)
+                            
+                            
+                            // Carbs
+                            VStack {
+                                Text("Carbs")
+                                    .font(.subheadline)
+                                
+                                Text("0 g")
+                                    .font(.title2)
+                            }
+                            .padding()
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .background()
+                            .cornerRadius(15)
+                            
+                            
+                            
+                            // Fat
+                            VStack {
+                                Text("Fat")
+                                    .font(.subheadline)
+                                
+                                Text("0 g")
+                                    .font(.title2)
+                            }
+                            .padding()
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .background()
+                            .cornerRadius(15)
+                            
+                        }
+                        
                         
                         // Push content toward top
                         Spacer()
