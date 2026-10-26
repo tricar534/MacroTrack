@@ -48,14 +48,26 @@ struct FoodLogView: View {
                     }
                     
                     // Lunch Section
+                    Section("Lunch") {
+                        Text("No foods logged")
+                            .foregroundStyle(.secondary)
+                    }
                     
                     // Dinner Section
+                    Section("Dinner") {
+                        Text("No foods logged")
+                            .foregroundStyle(.secondary)
+                    }
                     
                     // Snack Section
+                    Section("Snacks") {
+                        Text("No foods logged")
+                            .foregroundStyle(.secondary)
+                    }
 
                 } // End list
                 .scrollContentBackground(.hidden)
-
+                
             } // End zstack
         .navigationTitle("Food Log")
         }
