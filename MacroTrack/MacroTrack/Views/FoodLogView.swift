@@ -6,30 +6,26 @@
 //
 
 import SwiftUI
-
 struct FoodLogView: View {
     
-    // Struct to store food information
-    struct Food: Identifiable {
-        
-        // Unique id for each food
-        let id = UUID()
-        
-        // Food name
-        var name: String
-        
-        // Calories in food
-        var calories: Int
-    }
-    
+    // Arrays of food
     let breakfastFoods = [
         Food(name: "Boiled eggs", calories: 140),
         Food(name: "Banana", calories: 100)
     ]
-    //let lunchFoods = []
-    //let dinnerFoods = []
-    //let snacksFoods = []
+    let lunchFoods: [Food] = []
+    let dinnerFoods: [Food] = []
+    let snacksFoods: [Food] = []
     
+    // Functions
+    func breakfastTotal() -> Int {
+        var total = 0
+        
+        for food in breakfastFoods {
+            total += food.calories
+        }
+        return total
+    }
     
     var body: some View {
         
@@ -56,7 +52,9 @@ struct FoodLogView: View {
                     HStack {
                         Text("Today")
                             .bold()
+                        
                         Spacer()
+                        
                         Text("0 calories logged")
                             .font(.subheadline)
                     }
@@ -64,13 +62,16 @@ struct FoodLogView: View {
 
                     // Breakfast section
                     Section {
-                        
-                        // Create row for each food
-                        ForEach(breakfastFoods) { food in HStack {
-                            Text("\(food.name)")
+                        if breakfastFoods.isEmpty {
+                            Text("No foods logged")
+                                .foregroundStyle(.secondary)
+                        } else {
+                            // Create row for each food
+                            ForEach(breakfastFoods) { food in HStack {
+                                Text("\(food.name)")
                                 Spacer()
-                            Text("\(food.calories)")
-                            }
+                                Text("\(food.calories) cal")
+                            }}
                         }
                         
                     } header: {
@@ -79,24 +80,51 @@ struct FoodLogView: View {
                     
                     // Lunch Section
                     Section {
-                        Text("No foods logged")
-                            .foregroundStyle(.secondary)
+                        if lunchFoods.isEmpty {
+                            Text("No foods logged")
+                                .foregroundStyle(.secondary)
+                        } else {
+                            // Create row for each food
+                            ForEach(lunchFoods) { food in HStack {
+                                Text("\(food.name)")
+                                Spacer()
+                                Text("\(food.calories) cal")
+                            }}
+                        }
                     } header: {
                         Label("Lunch", systemImage: "sun.max")
                     }
                     
                     // Dinner Section
                     Section {
-                        Text("No foods logged")
-                            .foregroundStyle(.secondary)
+                        if dinnerFoods.isEmpty {
+                            Text("No foods logged")
+                                .foregroundStyle(.secondary)
+                        } else {
+                            // Create row for each food
+                            ForEach(dinnerFoods) { food in HStack {
+                                Text("\(food.name)")
+                                Spacer()
+                                Text("\(food.calories) cal")
+                            }}
+                        }
                     } header: {
                         Label("Dinner", systemImage: "moon")
                     }
                     
                     // Snack Section
                     Section {
-                        Text("No foods logged")
-                            .foregroundStyle(.secondary)
+                        if snacksFoods.isEmpty {
+                            Text("No foods logged")
+                                .foregroundStyle(.secondary)
+                        } else {
+                            // Create row for each food
+                            ForEach(snacksFoods) { food in HStack {
+                                Text("\(food.name)")
+                                Spacer()
+                                Text("\(food.calories) cal")
+                            }}
+                        }
                     } header: {
                         Label("Snacks", systemImage: "popcorn")
                     }
