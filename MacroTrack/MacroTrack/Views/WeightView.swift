@@ -8,8 +8,26 @@
 import SwiftUI
 
 struct WeightView: View {
+    
+    @State var currentWeight: Double = 222.2
+    @State var weightInput: String = ""
+    
+    let goalWeight = 200.0
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ScrollView{
+            VStack(spacing: 20) {
+                
+                // Current Weight
+                
+                // Goal Weight
+                
+                // Weight input
+                
+                //Chart placehodler
+
+            }
+        }
     }
 }
 
