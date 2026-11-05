@@ -62,3 +62,4 @@ fastlane/screenshots/**/*.png
 fastlane/test_output
 .DS_Store
 MacroTrack/Config.xcconfig
+MacroTrack/MacroTrack.xcodeproj/project.pbxproj
