@@ -17,4 +17,10 @@ struct Food: Identifiable {
     
     // Calories in food
     var calories: Int
+    
+    // Macros in grams
+    var protein: Double = 0
+    var carbs: Double = 0
+    var fat: Double = 0
+
 }
