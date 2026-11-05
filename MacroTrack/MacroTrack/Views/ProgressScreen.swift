@@ -18,7 +18,7 @@ struct ProgressScreen: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 
-                Text("Pogress Tracker")
+                Text("Progress Tracker")
                     .font(.largeTitle)
                     .bold()
                     .frame(maxWidth: .infinity)
