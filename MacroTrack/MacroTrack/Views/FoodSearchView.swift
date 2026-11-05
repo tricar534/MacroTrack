@@ -43,7 +43,7 @@ struct FoodSearchView: View {
                 Text("Food Search")
                     .font(.largeTitle)
                     .bold()
-                    .frame(width: .infinity)
+                    .frame(maxWidth: .infinity)
                 
                 // Search bar
                 TextField("Search for food...", text: $searchFood)
@@ -62,9 +62,14 @@ struct FoodSearchView: View {
                 ForEach(filteredFoods) { food in
                     VStack(alignment: .leading, spacing: 10) {
                         HStack {
+                           
+                            // Food name
                             Text(food.name)
                                 .font(.headline)
                             
+                            Spacer()
+                            
+                            // calories
                             Text("\(food.calories) kcal")
                                 .bold()
                         }
