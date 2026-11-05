@@ -54,7 +54,11 @@ struct FoodSearchView: View {
                 
                 Text("Search Results")
                     .font(.headline)
-                
+                Button("Test API") {
+                    Task {
+                        await FoodAPIService().testAPI()
+                    }
+                }
                 Text("Sample nutrition per 100 g")
                     .font(.caption)
                     .foregroundColor(.secondary)
