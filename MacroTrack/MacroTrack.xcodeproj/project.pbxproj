@@ -6,8 +6,13 @@
 	objectVersion = 90;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		6AF36899309C778000C67E34 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 6AF36898309C777100C67E34 /* Config.xcconfig */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		000000000000000000000120 /* MacroTrack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacroTrack.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6AF36898309C777100C67E34 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -30,6 +35,7 @@
 		000000000000000000000001 = {
 			isa = PBXGroup;
 			children = (
+				6AF36898309C777100C67E34 /* Config.xcconfig */,
 				000000000000000000000010 /* MacroTrack */,
 				000000000000000000000020 /* Products */,
 			);
@@ -102,6 +108,7 @@
 		000000000000000140000000 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			files = (
+				6AF36899309C778000C67E34 /* Config.xcconfig in Resources */,
 			);
 		};
 /* End PBXResourcesBuildPhase section */
