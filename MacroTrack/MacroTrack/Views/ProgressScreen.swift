@@ -8,8 +8,30 @@
 import SwiftUI
 
 struct ProgressScreen: View {
+    
+    @State var selectedPeriod = "Week"
+    
+    let periods = ["Week", "Month"]
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        
+        ScrollView {
+            VStack(alignment: .leading, spacing: 20) {
+                
+                Text("Pogress Tracker")
+                    .font(.largeTitle)
+                    .bold()
+                    .frame(maxWidth: .infinity)
+                
+                // Period picker
+                Picker("Time Period", selection: $selectedPeriod) {
+                    ForEach(periods, id: \.self) { period in
+                        Text(period)
+                    }
+                }
+                .pickerStyle(.segmented)
+            }
+        }
     }
 }
 
