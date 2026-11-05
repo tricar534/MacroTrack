@@ -16,6 +16,7 @@ struct FoodLogView: View {
     let lunchFoods: [Food] = [Food(name: "Pizza", calories: 300)]
     let dinnerFoods: [Food] = [Food(name: "Sushi", calories: 600)]
     let snacksFoods: [Food] = [Food(name: "Apple", calories: 80)]
+
     
     
     // FUNCTIONS
