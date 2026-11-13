@@ -9,31 +9,16 @@ import SwiftUI
 
 struct FoodSearchView: View {
 
-    @State var searchFood = ""
+    // Store users search
+    @State private var searchFood = ""
     
-    // Temp sampel food info
-    let foods = [
-            Food(name: "Chicken Breast", calories: 165,
-                 protein: 31, carbs: 0, fat: 3.6),
-
-            Food(name: "White Rice", calories: 130,
-                 protein: 2.7, carbs: 28.2, fat: 0.3),
-
-            Food(name: "Banana", calories: 89,
-                 protein: 1.1, carbs: 22.8, fat: 0.3)
-        ]
+    // Connect to foodsearch view model
+    @StateObject private var viewModel = FoodSearchViewModel()
     
-    // Filter food based on search
-    var filteredFoods: [Food] {
-        if searchFood.isEmpty {
-            return foods
-        } else {
-            return foods.filter { food in
-                food.name.localizedStandardContains(searchFood)
-            }
-        }
-    }
-
+    // Track search performed
+    @State private var hasSearched = false
+    
+    
     var body: some View {
 
         ScrollView {
@@ -51,62 +36,109 @@ struct FoodSearchView: View {
                     .padding(12)
                     .background(Color.gray.opacity(0.1))
                     .cornerRadius(20)
+                    .onSubmit {
+                        performSearch()
+                    }
                 
+                // Search button
+                Button("Search") {
+                    performSearch()
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(.green)
+                .disabled(viewModel.isLoading)
+                
+                // Search results title
                 Text("Search Results")
                     .font(.headline)
-                    Button("Test USDA API") {
-                        Task {
-                            do {
-                                let foods = try await FoodAPIService.shared.searchFoods(
-                                    query: "apple"
-                                )
-
-                                for food in foods {
-                                    print("Food:", food.description)
-                                    print("Calories:", food.caloriesPer100g ?? 0)
-                                }
-
-                            } catch {
-                                print("API Error:", error)
-                            }
-                        }
-                    }
-               Text("Sample nutrition per 100 g")
+                
+                Text("Nutrition information per 100 g")
                     .font(.caption)
                     .foregroundColor(.secondary)
                 
-                ForEach(filteredFoods) { food in
-                    VStack(alignment: .leading, spacing: 10) {
-                        HStack {
-                           
-                            // Food name
-                            Text(food.name)
-                                .font(.headline)
+                // Display loading
+                if viewModel.isLoading {
+                    ProgressView("Searching foods...")
+                    
+                    // Diplay API error
+                } else if let error = viewModel.errorMessage {
+                    Text(error)
+                        .foregroundColor(.red)
+                    
+                    // Display returned foods
+                } else if !viewModel.foods.isEmpty {
+
+                    ForEach(viewModel.foods) { food in
+                        VStack(alignment: .leading, spacing: 10) {
+                            HStack {
+                                
+                                // Food name
+                                Text(food.description)
+                                    .font(.headline)
+                                
+                                Spacer()
+                                
+                                // calories
+                                if let calories = food.caloriesPer100g {
+                                    
+                                    Text("\(calories, specifier: "%.0f") cal")
+                                        .bold()
+                                } else {
+                                    Text("N/A cal")
+                                }
+                                
+                            }
                             
-                            Spacer()
+                            // Protein
+                            if let protein = food.proteinPer100g {
+                                Text("Protein: \(protein, specifier: "%.1f") g")
+                                    .bold()
+                            } else {
+                                Text("Protein: N/A")
+                            }
                             
-                            // calories
-                            Text("\(food.calories) kcal")
-                                .bold()
+                            // Carbs
+                            if let carbs = food.carbsPer100g {
+                                Text("Carbs: \(carbs, specifier: "%.1f") g")
+                                    .bold()
+                            } else {
+                                Text("Carbs: N/A")
+                            }
+                            
+                            // Fat
+                            if let fat = food.fatPer100g {
+                                Text("Fat: \(fat, specifier: "%.1f") g")
+                                    .bold()
+                            } else {
+                                Text("Fat: N/A")
+                            }
+                            
                         }
-                        
-                        Text("Protein: \(food.protein, specifier: "%.1f") g")
-                        Text("Carbs: \(food.carbs, specifier: "%.1f") g")
-                        Text("Fat: \(food.fat, specifier: "%.1f") g")
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding()
+                        .background(Color.green.opacity(0.1))
+                        .cornerRadius(15)
                     }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding()
-                    .background(Color.green.opacity(0.1))
-                    .cornerRadius(15)
-                }
-                
-                if filteredFoods.isEmpty {
+                    
+                } else if hasSearched {
                     Text("No matching foods found")
+                        .foregroundColor(.secondary)
+                } else {
+                    Text("Search for a food to see nutrition information")
                         .foregroundColor(.secondary)
                 }
             }
         }
         .padding()
+    }
+    
+    // Search food using view model
+    func performSearch() {
+        hasSearched = true
+        
+        Task {
+            await viewModel.searchFoods(query: searchFood)
+        }
     }
 }
 
