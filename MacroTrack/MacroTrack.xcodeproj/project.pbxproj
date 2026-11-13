@@ -6,18 +6,27 @@
 	objectVersion = 90;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		6AF36899309C778000C67E34 /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 6AF36898309C777100C67E34 /* Config.xcconfig */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXFileReference section */
 		000000000000000000000120 /* MacroTrack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MacroTrack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6AF36898309C777100C67E34 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		6AF3693730A6DD2900C67E34 /* Exceptions for "MacroTrack" folder in "MacroTrack" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 000000000000000100000000 /* MacroTrack */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		000000000000000000000010 /* MacroTrack */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				6AF3693730A6DD2900C67E34 /* Exceptions for "MacroTrack" folder in "MacroTrack" target */,
+			);
 			path = MacroTrack;
 			sourceTree = "<group>";
 		};
@@ -78,7 +87,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 2630;
-				LastUpgradeCheck = 2700;
+				LastUpgradeCheck = 2720;
 				TargetAttributes = {
 					000000000000000100000000 = {
 						CreatedOnToolsVersion = 26.3;
@@ -108,7 +117,6 @@
 		000000000000000140000000 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			files = (
-				6AF36899309C778000C67E34 /* Config.xcconfig in Resources */,
 			);
 		};
 /* End PBXResourcesBuildPhase section */
@@ -124,6 +132,7 @@
 /* Begin XCBuildConfiguration section */
 		000000000000000011000000 /* Debug configuration for PBXProject "MacroTrack" */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6AF36898309C777100C67E34 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -194,6 +203,7 @@
 		};
 		000000000000000012000000 /* Release configuration for PBXProject "MacroTrack" */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6AF36898309C777100C67E34 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -256,6 +266,7 @@
 		};
 		000000000000000111000000 /* Debug configuration for PBXNativeTarget "MacroTrack" */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6AF36898309C777100C67E34 /* Config.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -263,6 +274,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MacroTrack/Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -293,6 +305,7 @@
 		};
 		000000000000000112000000 /* Release configuration for PBXNativeTarget "MacroTrack" */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6AF36898309C777100C67E34 /* Config.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -300,6 +313,7 @@
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MacroTrack/Info.plist;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;

@@ -7,61 +7,73 @@
 
 import Foundation
 
-// Handles API requests to Open Food Facts
-struct FoodAPIService {
+// Handles API requests to USDA FoodData Central
+class FoodAPIService {
 
-    // Function to test our API connection
-    // async allows the function to perform asynchronous tasks
-    func testAPI() async {
+    static let shared = FoodAPIService()
 
-        // URL of the Open Food Facts API endpoint
-        // This endpoint retrieves a product using its barcode
-        let url = URL(
-            string: "https://world.openfoodfacts.net/api/v3.6/product/3274080005003.json"
+    // USDA API base URL
+    private let baseURL = "https://api.nal.usda.gov/fdc/v1"
+
+    // Retrieve API key from Xcode configuration
+    private var apiKey: String {
+        Bundle.main.object(forInfoDictionaryKey: "USDA_API_KEY") as? String ?? ""
+    }
+
+    private init() {}
+
+    // Search USDA foods using a search term
+    func searchFoods(query: String) async throws -> [USDAFood] {
+
+        // Make sure API key is configured
+        guard !apiKey.isEmpty && !apiKey.contains("$(") else {
+            print("USDA API key is missing")
+            throw URLError(.userAuthenticationRequired)
+        }
+
+        // Create the USDA search URL
+        var components = URLComponents(
+            string: "\(baseURL)/foods/search"
         )!
 
-        // Create an HTTP request using our URL
+        // Add search parameters
+        components.queryItems = [
+            URLQueryItem(name: "api_key", value: apiKey),
+            URLQueryItem(name: "query", value: query),
+            URLQueryItem(name: "pageSize", value: "15")
+        ]
+
+        guard let url = components.url else {
+            throw URLError(.badURL)
+        }
+
+        // Create an HTTP GET request
         var request = URLRequest(url: url)
-        
-        // Set the request method to GET to retrieve information
         request.httpMethod = "GET"
 
-        // Identify our app to the API server
-        // Contact email needed
-        request.setValue(
-            "MacroTrack/0.1 (tcarreon2@csu.fullerton.edu)",
-            forHTTPHeaderField: "User-Agent"
+        // Request data from USDA
+        let (data, response) = try await URLSession.shared.data(
+            for: request
         )
 
-        // Public login credentials required for the test server
-        request.setValue(
-            "Basic b2ZmOm9mZg==",
-            forHTTPHeaderField: "Authorization"
-        )
-
-        // Attempt to send the API request
-        do {
-            
-            // Send the request and wait for the server's response
-            // data contains the information returned by the API
-            // response contains information about the HTTP response
-            let (data, response) = try await URLSession.shared.data(for: request)
-
-            // Get the HTTP status code (200 means success)
-            let status = (response as? HTTPURLResponse)?.statusCode ?? 0
-
-            // Display request information in Xcode's console
-            print("Method: GET")
-            print("Endpoint: \(url)")
-            print("HTTP Status: \(status)")
-            
-            // Convert the response data into readable text
-            // Display only the first 2000 characters
-            print(String(decoding: data, as: UTF8.self).prefix(2000))
-
-        } catch {
-            // Display an error if the request fails
-            print("API Error: \(error)")
+        // Check if request was successful
+        guard let httpResponse = response as? HTTPURLResponse,
+              httpResponse.statusCode == 200 else {
+            throw URLError(.badServerResponse)
         }
+
+        // Convert JSON into USDAFood objects
+        let usdaResponse = try JSONDecoder().decode(
+            USDAFoodResponse.self,
+            from: data
+        )
+
+        // Print testing information
+        print("Method: GET")
+        print("HTTP Status:", httpResponse.statusCode)
+        print("Foods Found:", usdaResponse.foods.count)
+
+        // Return array of foods
+        return usdaResponse.foods
     }
 }
