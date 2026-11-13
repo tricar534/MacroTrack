@@ -54,12 +54,24 @@ struct FoodSearchView: View {
                 
                 Text("Search Results")
                     .font(.headline)
-                Button("Test API") {
-                    Task {
-                        await FoodAPIService().testAPI()
+                    Button("Test USDA API") {
+                        Task {
+                            do {
+                                let foods = try await FoodAPIService.shared.searchFoods(
+                                    query: "apple"
+                                )
+
+                                for food in foods {
+                                    print("Food:", food.description)
+                                    print("Calories:", food.caloriesPer100g ?? 0)
+                                }
+
+                            } catch {
+                                print("API Error:", error)
+                            }
+                        }
                     }
-                }
-                Text("Sample nutrition per 100 g")
+               Text("Sample nutrition per 100 g")
                     .font(.caption)
                     .foregroundColor(.secondary)
                 
