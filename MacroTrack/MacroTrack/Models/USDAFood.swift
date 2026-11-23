@@ -16,6 +16,11 @@ struct USDAFood: Identifiable, Codable {
     let fdcId: Int
     let description: String
     let foodNutrients: [USDANutrient]?
+    
+    // USDA serving information
+    let servingSize: Double?
+    let servingSizeUnit: String?
+    let householdServingFullText: String?
 
     // Unique ID required for displaying foods in a SwiftUI List
     var id: Int {

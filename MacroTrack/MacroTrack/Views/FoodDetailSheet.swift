@@ -18,46 +18,63 @@ struct FoodDetailSheet: View {
     @Environment(\.dismiss) private var dismiss
 
     // User input
-    @State private var foodName = ""
-    @State private var gramsText = "100"
+    @State private var servingSize = "1"
     @State private var selectedMeal = "Breakfast"
 
-    // Editable nutrition values per 100 grams
-    @State private var caloriesText = ""
-    @State private var proteinText = ""
-    @State private var carbsText = ""
-    @State private var fatText = ""
+    // Convert input into a number
+        var servings: Double? {
+            guard let value = Double(servingSize),
+                  value > 0,
+                  value.isFinite else {
+                return nil
+            }
+            
+            return value
+        }
+            
+    // Check whether USDA provides a gram-based serving
+    var hasServingSize: Bool {
+        guard let size = food.servingSize,
+              let unit = food.servingSizeUnit else {
+            return false
+        }
 
-    // Validate the entered quantity
-    var grams: Double? {
-        guard let value = Double(gramsText),
-              value > 0,
-              value.isFinite else {
+        return size > 0 &&
+               size.isFinite &&
+               unit.lowercased() == "g"
+    }
+
+    // Determine grams in one serving or reference portion
+    var gramsPerServing: Double {
+        if hasServingSize {
+            return food.servingSize ?? 100
+        }
+
+        return 100
+    }
+    
+    // Calculate total grams from the quantity selected
+    var totalGrams: Double? {
+        guard let servings = servings else {
             return nil
         }
 
-        return value
-    }
+        let result = servings * gramsPerServing
 
-    // Validate nutritional values
-    func validNutrition(_ text: String) -> Double? {
-        guard let value = Double(text),
-              value >= 0,
-              value.isFinite else {
-            return nil
+        if result.isFinite {
+            return result
         }
 
-        return value
+        return nil
     }
 
-    // Check that all required values are entered
+    // Check whether the food can be added
     var canAddFood: Bool {
-        return grams != nil &&
-            !foodName.isEmpty &&
-            validNutrition(caloriesText) != nil &&
-            validNutrition(proteinText) != nil &&
-            validNutrition(carbsText) != nil &&
-            validNutrition(fatText) != nil
+        return totalGrams != nil &&
+               food.caloriesPer100g != nil &&
+               food.proteinPer100g != nil &&
+               food.carbsPer100g != nil &&
+               food.fatPer100g != nil
     }
 
     var body: some View {
@@ -70,16 +87,23 @@ struct FoodDetailSheet: View {
                     .font(.largeTitle)
                     .bold()
 
-                Text("Food Name")
+                // Display selected food
+                Text(food.description)
+                    .font(.title3)
+                    .bold()
+
+                // Display serving size from USDA
+                if hasServingSize {
+                    Text("1 serving = \(gramsPerServing, specifier: "%.1f") g")
+                } else {
+                    Text("1 reference portion = 100 g")
+                }
+
+                // Enter number of servings
+                Text(hasServingSize ? "Number of Servings" : "Number of 100 g Portions")
                     .font(.headline)
 
-                TextField("Food name", text: $foodName)
-                    .textFieldStyle(.roundedBorder)
-
-                Text("Quantity (grams)")
-                    .font(.headline)
-
-                TextField("Enter grams", text: $gramsText)
+                TextField("Enter quantity", text: $servingSize)
                     .keyboardType(.decimalPad)
                     .textFieldStyle(.roundedBorder)
 
@@ -93,29 +117,10 @@ struct FoodDetailSheet: View {
                 .pickerStyle(.menu)
 
                 Divider()
-
-                Text("Nutrition per 100 g")
-                    .font(.headline)
-
-                Text("You can adjust these values.")
+                
+                Text("Nutrition values provided by USDA")
                     .font(.caption)
                     .foregroundColor(.secondary)
-
-                TextField("Calories per 100 g", text: $caloriesText)
-                    .keyboardType(.decimalPad)
-                    .textFieldStyle(.roundedBorder)
-
-                TextField("Protein (g)", text: $proteinText)
-                    .keyboardType(.decimalPad)
-                    .textFieldStyle(.roundedBorder)
-
-                TextField("Carbs (g)", text: $carbsText)
-                    .keyboardType(.decimalPad)
-                    .textFieldStyle(.roundedBorder)
-
-                TextField("Fat (g)", text: $fatText)
-                    .keyboardType(.decimalPad)
-                    .textFieldStyle(.roundedBorder)
 
                 Divider()
 
@@ -123,12 +128,13 @@ struct FoodDetailSheet: View {
                     .font(.headline)
 
                 // Display calculated values for the chosen portion
-                if let grams = grams,
-                   let calories = validNutrition(caloriesText),
-                   let protein = validNutrition(proteinText),
-                   let carbs = validNutrition(carbsText),
-                   let fat = validNutrition(fatText) {
+                if let grams = totalGrams,
+                   let calories = food.caloriesPer100g,
+                   let protein = food.proteinPer100g,
+                   let carbs = food.carbsPer100g,
+                   let fat = food.fatPer100g {
 
+                    Text("Total Weight: \(grams, specifier: "%.1f") g")
                     Text("Calories: \(calories * grams / 100, specifier: "%.0f") cal")
 
                     Text("Protein: \(protein * grams / 100, specifier: "%.1f") g")
@@ -138,7 +144,7 @@ struct FoodDetailSheet: View {
                     Text("Fat: \(fat * grams / 100, specifier: "%.1f") g")
 
                 } else {
-                    Text("Enter valid nutrition values and grams.")
+                    Text("Enter a valid quantity. Nutrition information must be available.")
                         .foregroundColor(.secondary)
                 }
 
@@ -152,48 +158,23 @@ struct FoodDetailSheet: View {
             }
             .padding()
         }
-        .onAppear {
-            loadFoodInformation()
-        }
-    }
-
-    // Load the original USDA information
-    func loadFoodInformation() {
-
-        foodName = food.description
-
-        if let calories = food.caloriesPer100g {
-            caloriesText = String(calories)
-        }
-
-        if let protein = food.proteinPer100g {
-            proteinText = String(protein)
-        }
-
-        if let carbs = food.carbsPer100g {
-            carbsText = String(carbs)
-        }
-
-        if let fat = food.fatPer100g {
-            fatText = String(fat)
-        }
+        
     }
 
     // Create and add a logged food entry
     func addFood() {
 
-        guard let grams = grams,
-              let calories = validNutrition(caloriesText),
-              let protein = validNutrition(proteinText),
-              let carbs = validNutrition(carbsText),
-              let fat = validNutrition(fatText),
-              !foodName.isEmpty else {
+        guard let grams = totalGrams,
+              let calories = food.caloriesPer100g,
+              let protein = food.proteinPer100g,
+              let carbs = food.carbsPer100g,
+              let fat = food.fatPer100g else {
             return
         }
 
         let newEntry = FoodEntry(
             fdcId: food.fdcId,
-            name: foodName,
+            name: food.description,
             grams: grams,
             meal: selectedMeal,
             caloriesPer100g: calories,
