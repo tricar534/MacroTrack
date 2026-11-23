@@ -2,13 +2,16 @@ import SwiftUI
 import Playgrounds
 
 struct ContentView: View {
+    
+    @StateObject private var foodLogViewModel = FoodLogViewModel()
+    
     var body: some View {
         TabView {
             DashboardView()
                 .tabItem{
                     Label("Home", systemImage: "house.fill")
                 }
-            FoodSearchView()
+            FoodSearchView(foodLogViewModel: foodLogViewModel)
                 .tabItem{
                     Label("Search", systemImage: "magnifyingglass")
                 }

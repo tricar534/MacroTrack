@@ -15,6 +15,11 @@ struct FoodSearchView: View {
     // Connect to foodsearch view model
     @StateObject private var viewModel = FoodSearchViewModel()
     
+    @ObservedObject var foodLogViewModel: FoodLogViewModel
+    @State private var selectedFood: USDAFood?
+    
+    
+    
     // Track search performed
     @State private var hasSearched = false
     
@@ -69,55 +74,61 @@ struct FoodSearchView: View {
                 } else if !viewModel.foods.isEmpty {
 
                     ForEach(viewModel.foods) { food in
-                        VStack(alignment: .leading, spacing: 10) {
-                            HStack {
+                        Button {
+                            selectedFood = food
+                        } label: {
+                            
+                            VStack(alignment: .leading, spacing: 10) {
                                 
-                                // Food name
-                                Text(food.description)
-                                    .font(.headline)
-                                
-                                Spacer()
-                                
-                                // calories
-                                if let calories = food.caloriesPer100g {
+                                HStack {
                                     
-                                    Text("\(calories, specifier: "%.0f") cal")
-                                        .bold()
-                                } else {
-                                    Text("N/A cal")
+                                    // Food name
+                                    Text(food.description)
+                                        .font(.headline)
+                                    
+                                    Spacer()
+                                    
+                                    // calories
+                                    if let calories = food.caloriesPer100g {
+                                        
+                                        Text("\(calories, specifier: "%.0f") cal")
+                                            .bold()
+                                    } else {
+                                        Text("N/A cal")
+                                    }
+                                    
                                 }
                                 
+                                // Protein
+                                if let protein = food.proteinPer100g {
+                                    Text("Protein: \(protein, specifier: "%.1f") g")
+                                        .bold()
+                                } else {
+                                    Text("Protein: N/A")
+                                }
+                                
+                                // Carbs
+                                if let carbs = food.carbsPer100g {
+                                    Text("Carbs: \(carbs, specifier: "%.1f") g")
+                                        .bold()
+                                } else {
+                                    Text("Carbs: N/A")
+                                }
+                                
+                                // Fat
+                                if let fat = food.fatPer100g {
+                                    Text("Fat: \(fat, specifier: "%.1f") g")
+                                        .bold()
+                                } else {
+                                    Text("Fat: N/A")
+                                }
                             }
-                            
-                            // Protein
-                            if let protein = food.proteinPer100g {
-                                Text("Protein: \(protein, specifier: "%.1f") g")
-                                    .bold()
-                            } else {
-                                Text("Protein: N/A")
-                            }
-                            
-                            // Carbs
-                            if let carbs = food.carbsPer100g {
-                                Text("Carbs: \(carbs, specifier: "%.1f") g")
-                                    .bold()
-                            } else {
-                                Text("Carbs: N/A")
-                            }
-                            
-                            // Fat
-                            if let fat = food.fatPer100g {
-                                Text("Fat: \(fat, specifier: "%.1f") g")
-                                    .bold()
-                            } else {
-                                Text("Fat: N/A")
-                            }
-                            
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                            .padding()
+                            .background(Color.green.opacity(0.1))
+                            .cornerRadius(15)
                         }
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding()
-                        .background(Color.green.opacity(0.1))
-                        .cornerRadius(15)
+                        .buttonStyle(.plain)
                     }
                     
                 } else if hasSearched {
@@ -130,6 +141,13 @@ struct FoodSearchView: View {
             }
         }
         .padding()
+        .sheet(item: $selectedFood) { food in
+            FoodDetailSheet(
+                food: food,
+                foodLogViewModel: foodLogViewModel
+            )
+        }
+        
     }
     
     // Search food using view model
@@ -143,5 +161,7 @@ struct FoodSearchView: View {
 }
 
 #Preview {
-    FoodSearchView()
+    FoodSearchView(
+        foodLogViewModel: FoodLogViewModel()
+    )
 }
